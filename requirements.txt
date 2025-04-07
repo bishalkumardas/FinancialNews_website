@@ -5,11 +5,13 @@ charset-normalizer==3.4.1
 dj-database-url==2.3.0
 Django==5.1.5
 frozendict==2.4.6
+gunicorn==23.0.0
 html5lib==1.1
 idna==3.10
 lxml==5.3.1
 multitasking==0.0.11
 numpy==2.2.2
+packaging==24.2
 pandas==2.2.3
 peewee==3.17.9
 platformdirs==4.3.6
@@ -24,4 +26,5 @@ typing_extensions==4.12.2
 tzdata==2025.1
 urllib3==2.3.0
 webencodings==0.5.1
+whitenoise==6.9.0
 yfinance==0.2.54

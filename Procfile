@@ -1,0 +1,1 @@
+web: gunicorn FinancialNews_website.wsgi
