@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block body %}
+
+
+<div class="col-12 col-md-6">
+    <div class="form_django">
+        <form action="" method='POST'>
+            {% csrf_token %}
+            <div class="input_comments" style="margin: 50px;">
+    
+                <div class="mb-3" >
+                    {{ form.email.label_tag }}
+                    {{ form.email }}
+                </div><br>
+                <div class="row">
+                    <div class="col">
+                    {{ form.fname.label_tag }}
+                    {{ form.fname }}
+                    </div>
+                    <div class="col">
+                    {{ form.lname.label_tag }}
+                    {{ form.lname }}
+                    </div>
+                </div><br>
+                <div class="mb-3">
+                    {{ form.comment.label_tag }}
+                    {{ form.comment }} 
+                </div><br><div class="mb-3">
+                    <label>Rating</label><br>
+                    {% for radio in form.exp %}
+                        <label>{{ radio.tag }} {{ radio.choice_label }}</label>
+                    {% endfor %}
+                </div><br>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+        
+    </div>
+
+    <hr>
+    <div class="showcomments" style="margin: 10px; text-align:center">
+        <h1>Comments</h1>
+    </div>
+    
+    {% if data.error %}
+        <p style="color: red;">{{ data.error }}</p>
+    {% else %}
+        <div>
+            
+            {% comment %} <img src="image/user_icon/a.png" alt="no image"> {% endcomment %}
+            {% for com in data %}
+            
+            <div class="card border-success" style="width: auto; margin:10px 90px ">
+                <h5 class="card-header d-flex justify-content-between">
+                    <span>
+                        <img src="{% static "image/user_icon/" %}{{ com.fname|slice:":1"|lower }}.png" alt="icon-image" class="user-icon">
+                        {{ com.fname }}
+                        {{ com.lname }}
+                    </span>
+                    <span>
+                        {% if com.exp == 1 %}
+                            &#128545;  {# Angry Face 😡 #}
+                        {% elif com.exp == 2 %}
+                            &#128532;  {# Disappointed Face 😔 #}
+                        {% elif com.exp == 3 %}
+                            &#128528;  {# Neutral Face 😐 #}
+                        {% elif com.exp == 4 %}
+                            &#128522;  {# Smiling Face 😊 #}
+                        {% elif com.exp == 5 %}
+                            &#128519;  {# SMILING FACE WITH HALO 😇 #}
+                        {% endif %}
+                        {% comment %} {{ com.exp }} {% endcomment %}
+                    </span>
+
+                </h5>
+                <div class="card-body ">
+                    <p class="card-text">{{ com.comment }}</p>
+                </div>
+            </div>
+            {% endfor %}
+            
+            {% comment %} <div><br><br><br><br><br><br><br><br><br><br></div> {% endcomment %}
+        </div>
+    {% endif %}
+    <div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                {% if data.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{1}}"><<</a>
+                </li>
+                
+                <li class="page-item">
+                    <a class="page-link" href="?page={{data}}">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link " href="?page={{data.previous_page_number}}">{{data.previous_page_number}}</a></li>
+                {% endif %}
+                <li class="page-item"><a class="page-link active" href="#">{{data.number}}</a></li>
+                
+                {% if data.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{data.next_page_number}}">{{data.next_page_number}}</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{data.next_page_number}}">Next</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{data.paginator.num_pages}}">>></a>
+                </li>
+                {% endif %}
+                
+            </ul>
+        </nav>
+    </div>
+    {% comment %} showing comments  {% endcomment %}
+    
+</div>
+    
+    
+    {% endblock body %}
+    

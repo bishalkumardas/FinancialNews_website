@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+ Stock News
+{% endblock title %}
+
+{% block body %}
+<div  class="col-12 col-md-6">
+
+    {% comment %} main content {% endcomment %}
+    <div>
+        <p><br></p>
+        <form method='GET'>
+            <div class='d-flex justify-content-between mx-3'>
+                <span>
+                    {% comment %} <div>Choose date to filter</div> {% endcomment %}
+                </span>
+                <span>
+                    {% comment %} {% csrf_token %} {% endcomment %}
+                    <input type="date" id='date' name="date">
+                    <button type='submit'>Filter</button>
+                </span>
+            </div>
+        </form>
+        {% if messages %}
+        <div class="alert alert-{{ status }} mt-3" role="alert">
+            {% for message in messages %}
+            {{ message }}
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        {% for n in news %}
+        <div class="card text-center m-2" style='background: #ebe4e1;'>
+            <div class="card-header text-body-secondary">
+                {{n.source}}
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-md-4 text-center">
+                        <a href="{{n.news_link}}" class="link-body-emphasis link-underline-opacity-0 link-underline-opacity-75-hover link-offset-2">
+                            <img src={{n.image_link}} class="card-img-top" style="width: 100%;" alt='If image not showing please share news id in review'>
+                        </a>
+                    </div>
+                    <div class="col-12 col-md-8">
+                        
+                        <a href="{{n.news_link}}" class="link-body-emphasis link-underline-opacity-0 link-underline-opacity-75-hover link-offset-2">
+                            <h2 class="card-title text-center text-md-start text-capitalize mt-1">{{n.head}}</h2>
+                        </a>
+                        
+                        <h4 class="card-subtitle text-body-secondary text-center text-md-start mt-1">{{n.sub_head}}</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-body-secondary d-flex justify-content-between">
+                <span>
+                    {{n.date|date:"d F Y"}}
+                    {% comment %}
+                    d → Day with leading zero (e.g., 04)
+                    F → Full month name (e.g., February)
+                    Y → Four-digit year (e.g., 2025) 
+                    {% endcomment %}
+                </span>
+                <span>
+                    {{n.relative_date}}
+                </span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                {% if news.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{1}}"><<</a>
+                </li>
+                
+                <li class="page-item">
+                    <a class="page-link" href="?page={{news.previous_page_number}}">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link " href="?page={{news.previous_page_number}}">{{news.previous_page_number}}</a></li>
+                {% endif %}
+                <li class="page-item"><a class="page-link active" href="#">{{news.number}}</a></li>
+                
+                {% if news.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{news.next_page_number}}">{{news.next_page_number}}</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{news.next_page_number}}">Next</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{news.paginator.num_pages}}">>></a>
+                </li>
+                {% endif %}
+                
+            </ul>
+        </nav>
+    </div>
+    
+    
+</div>
+    {% endblock body %}

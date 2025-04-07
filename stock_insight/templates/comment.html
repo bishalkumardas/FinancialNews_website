@@ -1,0 +1,118 @@
+{% extends "html/base.html" %}
+{% load static %}
+
+{% block head %}
+
+
+<style>
+    
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .user-icon{
+        width: 30px;
+        height: 30px;
+    }
+
+</style>
+{% endblock head %}
+
+
+{% block container %}
+   
+    <hr>
+    {% comment %} Taking comments from user  {% endcomment %}
+    {% comment %} <div class="form_django">
+        <form action="" method='POST'>
+            {% csrf_token %}
+            <div class="input_comments" style="margin: 100px;">
+
+                <div class="mb-3" >
+                    {{ form.email.label_tag }}
+                    {{ form.email }}
+                </div><br>
+                <div class="row">
+                    <div class="col">
+                    {{ form.first_name.label_tag }}
+                    {{ form.first_name }}
+                    </div>
+                    <div class="col">
+                    {{ form.last_name.label_tag }}
+                    {{ form.last_name }}
+                    </div>
+                </div><br>
+                <div class="mb-3">
+                    {{ form.comments.label_tag }}
+                    {{ form.comments }}
+                </div><br>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+        
+    </div> {% endcomment %}
+
+    <div class="form_django">
+        <form action="" method='POST'>
+            {% csrf_token %}
+            <div class="input_comments" style="margin: 100px;">
+
+                <div class="mb-3" >
+                    {{ form.email.label_tag }}
+                    {{ form.email }}
+                </div><br>
+                <div class="row">
+                    <div class="col">
+                    {{ form.first_name.label_tag }}
+                    {{ form.first_name }}
+                    </div>
+                    <div class="col">
+                    {{ form.last_name.label_tag }}
+                    {{ form.last_name }}
+                    </div>
+                </div><br>
+                <div class="mb-3">
+                    {{ form.comments.label_tag }}
+                    {{ form.comments }} 
+                </div><br>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+        
+    </div>
+    
+    
+    <hr>
+
+    {% comment %} showing comments  {% endcomment %}
+    <div>
+
+        <div class="showcomments" style="margin: 10px; text-align:center">
+            <h2>Comments</h2>
+        </div>
+    
+        {% for com in cm %}
+        
+            <div class="card border-success" style="width: auto; margin:10px 90px ">
+                <h5 class="card-header">
+                    {% comment %} <img src="{% static "image/user_icon/a.png" %}" alt="icon-image" class='user-icon'> {% endcomment %}
+                    <img src="{% static "image/user_icon/" %}{{ com.first_name|slice:":1"|lower }}.png" alt="icon-image" class="user-icon">
+                    {{ com.first_name }}
+                </h5>
+                <div class="card-body ">
+                  <p class="card-text">{{ com.comments }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    
+        <div><br><br><br><br><br><br><br><br><br><br></div>
+    </div>
+
+
+{% endblock container %}
+
+

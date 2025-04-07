@@ -1,0 +1,419 @@
+{% extends "base.html" %}
+
+{% comment %} to add commas in numbers like (info.marketCap|intcomma) {% endcomment %}
+{% load humanize %} 
+
+{% block body %}
+
+<div class='container col-12 col-md-6 mx-0 px-0' style='background: #ebe4e1;'>
+    {% comment %} Search stock option  {% endcomment %}
+    <div class='container mt-5'>
+        <form action="" method="POST">
+            <legend><label for="Stock_input" class="form-label">Search stock name</label></legend>
+            <div class="input-group input-group-sm mb-3">
+                <input type="text" id="Stock_input" list="datalistOptions" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" placeholder="Eg. Apple" name="stock_name">
+                <datalist id="datalistOptions">
+                    {% for data in list %}
+                    {% comment %} <h1>{{s.symbol}}</h1> {% endcomment %}
+                    <option value="{{ data.security_name }}"></option>
+                        {% endfor %}
+                    </datalist>
+                    <span class="input-group-text p-0" id="inputGroup-sizing">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary" style="border-radius: 0px;">Search</button>
+                </span>
+            </div>
+            
+        </form>
+    </div>
+
+    {% comment %} stock details  {% endcomment %}
+    <div class='container text-start'>
+        <hr>
+        <h1>{{ info.shortName }}</h1>
+        <h3>{{stock_price}} ({{info.financialCurrency}})<span style="font-size: 20px; color:{{diff_tri_color}}">{{diff_tri}} {{info.regularMarketChange|floatformat:2 }} {{info.financialCurrency}} ({{info.regularMarketChangePercent|floatformat:2 }}%)</span></h3>
+        <h5>Market Cap</h5>
+        <h5>{{info.marketCap|intcomma}} ({{info.financialCurrency}})</h5>
+        {% comment %} <h5>Volume</h5>
+        <h5>{{info.volume}} ({{info.financialCurrency}})</h5> {% endcomment %}
+        <div class="text-body-secondary"><span data-bs-toggle="tooltip" title="As on date" style="cursor: pointer;">{{as_on_date}}</span></div>
+        <hr>
+        <h3>Stock Price</h3>
+        <table class="table caption-top table-bordered">
+            <caption>Last {{history_data|length}} day history in {{info.financialCurrency}}</caption>
+            <thead class='table-warning'>
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Open</th>
+                    <th scope="col">High</th>
+                    <th scope="col">Low</th>
+                    <th scope="col">Close</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in history_data %}
+                <tr>
+                    <th>{{data.0|date:"d M Y"}}</th>
+                    <td>{{data.1}}</td>
+                    <td>{{data.2}}</td>
+                    <td>{{data.3}}</td>
+                    <td>{{data.4}}</td>
+                </tr>
+                {% endfor %}  
+            </tbody>
+        </table>
+        
+    </div>
+    
+    <hr>
+    {% comment %} Financial info {% endcomment %}
+    <div class="container ">
+        <h3>Financial info </h3>
+        <table class="table table-borderless">
+            <tbody>
+                <tr class="text-start">
+                    <th>Ebita</th>
+                    <td>{{info.ebitda|intcomma}} ({{info.financialCurrency}})</td>
+                    <th>Total Revenue</th>
+                    <td>{{info.totalRevenue|intcomma}} ({{info.financialCurrency}})</td>
+                </tr>
+                <tr class="text-start">
+                    <th>Total Debt</th>
+                    <td>{{info.totalDebt|intcomma}} ({{info.financialCurrency}})</td>
+                    <th>Debt To Equity (D/E)</th>
+                    <td>{{info.debtToEquity|floatformat:2}}%</td>
+                </tr>
+                <tr class="text-start">
+                    <th>ROA</th>
+                    <td>{{info.returnOnAssets|floatformat:2}}%</td>
+                    <th>ROE</th>
+                    <td>{{info.returnOnEquity|floatformat:2}}%</td>
+                </tr>
+            </tbody>
+          </table>
+    </div>
+
+    <hr>
+    {% comment %} Analyst recommendations {% endcomment %}
+    <h3>Analyst recommendations</h3>
+    <div class=container>
+        <table class="table table-borderless">
+            <thead>
+              <tr>
+                  <th>Strong Buy</th>
+                  <th>Buy</th>
+                  <th>Hold</th>
+                  <th>Sell</th>
+                <th>Stong Sell</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{analyst_rec.strongBuy}}</td>
+                <td>{{analyst_rec.buy}}</td>
+                <td>{{analyst_rec.hold}}</td>
+                <td>{{analyst_rec.sell}}</td>
+                <td>{{analyst_rec.strongSell}}</td>
+            </tr>
+            </tbody>
+        </table>
+        
+        <div>
+            <h4>Price Taget by Analyst</h4>
+            <h6 style='color:green'>&#9650 High <span>{{info.targetHighPrice}}</span></h6>
+            <h6 style='color:red'>&#9660 Low <span>{{info.targetLowPrice}}</span></h6>
+        </div>
+    </div>
+    <hr>
+    {% comment %} Stock Actions & Dividends {% endcomment %}
+    <h3>Stock Splits & Dividends</h3>
+    <div class="container">
+        <table class="table caption-top table-bordered">
+            <caption>Last {{dividend|length}} Divident record</caption>
+            <thead class='table-warning'>
+              <tr>
+                  <th scope="col">Date</th>
+                <th scope="col">Divident</th>
+            </tr>
+        </thead>
+            <tbody>
+            {% for divd in dividend %}
+                <tr>
+                    <th>{{ divd.Date }}</th>
+                    <td>{{ divd.Dividends }}</td>
+                </tr>
+            {% endfor %}            
+            </tbody>
+        </table>
+        <table class="table caption-top table-bordered">
+            <caption>Last {{split|length}} Splits record</caption>
+            <thead class='table-warning'>
+              <tr>
+                  <th scope="col">Date</th>
+                <th scope="col">Splits</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for splt in split %}
+                    <tr>
+                        <th>{{splt.Date}}</th>
+                        <td>{{splt.Splits}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <hr>
+    {% comment %} Institutional & Insider Holdings {% endcomment %}
+    <h3>Institutional & Mutual Fund Holders</h3>
+    <div class="container text-start">
+        <table class="table caption-top table-bordered">
+            <caption>List of Institutional Holders</caption>
+            <thead class='table-warning'>
+                <tr>
+                {% comment %} <th scope="col">Date Reported</th> {% endcomment %}
+                <th scope="col">Holder</th>
+                <th scope="col">pctHeld (%)</th>
+                <th scope="col">Shares</th>
+                <th scope="col">Value ({{info.financialCurrency}})</th>
+                
+            </tr>
+            </thead>
+            <tbody>
+                {% for ins in inst_invt %}                
+                <tr>
+                    {% comment %} <th>{{ins.Date|date:"d M Y"}}</th> {% endcomment %}
+                    <td>{{ins.Holder}}</td>
+                    <td>{{ins.pctHeld}}</td>
+                    <td>{{ins.Shares}}</td>
+                    <td>{{ins.Value}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <table class="table caption-top table-bordered">
+            <caption>List of Mutual Fund Holders</caption>
+            <thead class='table-warning'>
+              <tr>
+                {% comment %} <th scope="col">Date Reported</th> {% endcomment %}
+                <th scope="col">Holder</th>
+                <th scope="col">pctHeld</th>
+                <th scope="col">Shares</th>
+                <th scope="col">Value</th>
+                
+            </tr>
+            </thead>
+            <tbody>
+                {% for mf in mf_hold %}
+                    <tr>
+                        {% comment %} <th>2023-06-30</th> {% endcomment %}
+                        <td>{{mf.Holder}}</td>
+                        <td>{{mf.pctHeld}}</td>
+                        <td>{{mf.Shares}}</td>
+                        <td>{{mf.Value}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <hr>
+    <div class="container">
+        <h3>Business Discription</h3>
+        <p>{{info.longBusinessSummary}}</p>
+    </div>
+
+    {% comment %} Adress info  {% endcomment %}
+    <hr>
+    <div class="container">
+        <h3>Adress & Contact info </h3>
+        <table class="table table-borderless text-start">
+            <thead>
+              <tr>
+                <th>City</th>
+                <td>{{info.city}}</td>
+                <th>State</th>
+                <td>{{info.state}}</td>
+            </tr>
+        </thead>
+            <tbody>
+                <tr>
+                <th>Zip</th>
+                <td>{{info.zip}}</td>
+                <th>Country</th>
+                <td>{{info.country}}</td>
+            </tr>
+              <tr>
+                  <th>Website</th>
+                  <td>{{info.website}}</td>
+                  <th>Phone</th>
+                  <td>{{info.phone}}</td>
+                </tr>
+              <tr>
+                <th>Industry</th>
+                <td>{{info.industry}}</td>
+                <th>Sector</th>
+                <td>{{info.sector}}</td>
+              </tr>
+              <tr>
+                <th>Adress</th>
+                <td>{{info.address1}}</td>
+                <th>IR Website</th>
+                <td>{{info.irWebsite}}</td>
+            </tr>
+            </tbody>
+          </table>
+          
+    </div>
+    
+    {% comment %} other info  {% endcomment %}
+    <hr>
+    <div class="container">
+        <h3>Other info </h3>
+        <table class="table table-borderless">
+            <tbody>
+                <tr class="text-start">
+                <th>Trade Currency</th>
+                <td>{{info.financialCurrency}}</td>
+                <th>Exchange</th>
+                <td>{{info.exchange}}</td>
+              </tr>
+              <tr class="text-start">
+                <th>Time Zone</th>
+                <td>{{info.exchangeTimezoneName}}</td>
+                <th>Time Zone Short Name</th>
+                <td>{{info.exchangeTimezoneShortName}}</td>
+              </tr>
+            </tbody>
+          </table>
+          
+        </div>
+
+    <hr>
+    {% comment %} Key person Info {% endcomment %}
+    <h3>Key Persons</h3>
+    <div class="container text-start">
+        <table class="table caption-top table-bordered">
+            <thead class='table-warning'>
+              <tr>
+                <th scope="col">Designation</th>
+                <th scope="col">Full Name</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for kp in kp_df %}
+                <tr>
+                    <th>{{kp.title}}</th>
+                    <td>{{kp.name}}</td>
+                </tr>
+                {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<hr>
+{% comment %} Options Data {% endcomment %}
+
+<!--
+
+<div class="container">
+
+    <h3>Recent Options Data</h3>
+
+    {% comment %} table call  {% endcomment %}
+    <table class="table caption-top table-bordered">
+        <caption>Call Options (date)</caption>
+        <thead class='table-warning'>
+          <tr>
+            <th scope="col">TradeDate&Time</th>
+            {% comment %} <th scope="col">tradeTime</th> {% endcomment %}
+            <th scope="col">ContractSymbol</th>
+            <th scope="col">Strike</th>
+            <th scope="col">LastPrice</th>
+            <th scope="col">Ask</th>
+            <th scope="col">OpenInterest</th>
+            <th scope="col">Volume</th>
+            <th scope="col">Bid</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>07 Feb 2025, 05:34</th>
+            {% comment %} <td>05:34 PM</td> {% endcomment %}
+            <td>AAPL250214C00140000</td>
+            <td>140.0</td>
+            <td>88.52</td>
+            <td>87.20</td>
+            <td>88.15</td>
+            <td>53</td>
+            <td>36</td>
+        </tr>
+        </tbody>
+    </table>
+    {% comment %} table put  {% endcomment %}
+    <table class="table caption-top table-bordered">
+        <caption>Put Options (date)</caption>
+        <thead class='table-warning'>
+          <tr>
+            <th scope="col">TradeDate&Time</th>
+            {% comment %} <th scope="col">tradeTime</th> {% endcomment %}
+            <th scope="col">ContractSymbol</th>
+            <th scope="col">Strike</th>
+            <th scope="col">LastPrice</th>
+            <th scope="col">Ask</th>
+            <th scope="col">OpenInterest</th>
+            <th scope="col">Volume</th>
+            <th scope="col">Bid</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>07 Feb 2025, 05:34</th>
+            {% comment %} <td>05:34 PM</td> {% endcomment %}
+            <td>AAPL250214C00140000</td>
+            <td>140.0</td>
+            <td>88.52</td>
+            <td>87.20</td>
+            <td>88.15</td>
+            <td>53</td>
+            <td>36</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div>
+        stock.options → Expiration dates for options
+        stock.option_chain(date) → Option chain for a specific expiration date
+        
+    </div>
+</div>
+
+-->    
+
+{% comment %} Financial Data {% endcomment %}
+<h3 style="color:grey;">Financial Data (comming soon)</h3>
+{% comment %} 
+<div>
+
+    stock.financials → Annual income statement
+    stock.quarterly_financials → Quarterly income statement
+    stock.balance_sheet → Annual balance sheet
+    stock.quarterly_balance_sheet → Quarterly balance sheet
+    stock.cashflow → Annual cash flow statement
+    stock.quarterly_cashflow → Quarterly cash flow statement
+    
+</div>
+{% endcomment %}
+    
+    
+    
+</div>
+
+
+
+
+{% endblock body %}
+

@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title %}
+Modify News
+{% endblock title %}
+
+
+{% block body %}
+
+    <div class="col-12 col-md-6" style="background-color:white">
+        <div style="background-color:white" class='mt-4'>
+            {% comment %} stock news autoprocess  {% endcomment %}
+            <form style="border: 2px solid #ccc; margin:auto;" class="py-3" action="{% url "auto_process_news" %}" method="POST">
+                <input type="date" id='date' name="date">
+                <br>
+                <br>
+                {% csrf_token %}
+                <button type="submit">Auto Process Stock News</button>
+                
+                {% comment %} message after success {% endcomment %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "news" in message.tags %}
+                                <div class="alert alert-{{ alert }} mt-3" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+            </form>
+            <br>
+
+            {% comment %} autoprocess symbols  {% endcomment %}
+            <form style="border: 2px solid #ccc; margin:auto;" class="py-3" action="{% url "auto_process_symbols" %}" method="POST">
+                {% csrf_token %}
+                <button type="submit">Symbol Update</button>
+                
+                {% comment %} message after success {% endcomment %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "symbol" in message.tags %}
+                                <div class="alert alert-{{ alert }} mt-3" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+            </form>
+            <br>
+
+            {% comment %} news with sentiments form  {% endcomment %}
+            <details>
+                <summary class='page-control'>Add News with sentiments</summary>
+
+                <form style="border: 2px solid #ccc; margin:auto;" class="py-3 row g-3" method="POST" novalidate>
+                    
+                    {% csrf_token %}
+                    
+                    <div class='d-flex flex-column flex-md-row justify-content-center justify-content-md-between gap-2'>
+                        
+                        <span>
+                            Date <br>
+                            {{form.date}}
+                        </span>
+                        
+                        {% comment %} <span>
+                            Sentiment <br>
+                            {{form.sentiment}}    
+                        </span> {% endcomment %}
+                        
+                    </div>
+                    <div class="mb-3">
+                        
+                        <label for="formGroupExampleInput2" class="form-label">
+                            Head
+                        </label>
+                        
+                        {{ form.head }}
+                        
+                        {% if error %}
+                            <div class="alert alert-danger">
+                                <strong>Error:</strong> {{ error }}
+                            </div>
+                        {% endif %}
+                    
+                    </div>
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput2" class="form-label">
+                            Subhead
+                        </label>
+                        {{form.sub_head}}
+                       </div>
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput2" class="form-label">
+                            Head Image Link
+                        </label>
+                        {{form.image_link}}
+                       </div>
+    
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput2" class="form-label">
+                            Content
+                        </label>
+                        {{form.content}}
+                       </div>
+        
+                    {% comment %} {{form.as_p}} {% endcomment %}
+            
+                    <button type='submit'>POST</button>
+                </form>
+            </details>
+        
+            {% comment %} news to delete news  {% endcomment %}
+            <details class='pt-4'>
+                <summary class='page-control'>Edit News with sentiments</summary>
+
+                <form style="border: 2px solid #ccc; margin:auto;" class="py-3 row g-3" method="GET" action={% url 'edit_news' %} novalidate>
+                
+                    <label for="get_record">Select news ID </label>
+                    <div class="input-group input-group-sm mb-3">
+                        
+                        <input type="text" id="Stock_input" list="datalistOptions" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" placeholder="Eg. 1, 2, 201" autocomplete="off"  name="get_record">
+
+                        <datalist id="datalistOptions">
+                            {% for news in n_list %}
+                                <option value="{{ news.id }}">{{ news.head }}</option>
+                            {% endfor %}
+                        </datalist>
+                        
+                        <span class="input-group-text p-0" id="inputGroup-sizing">
+                        </span>
+                        
+                        {% csrf_token %}
+                        <button type='submit'>Get news</button>
+                    </div>
+                    
+                </form>
+
+            </details>
+        
+        </div>
+
+        
+    </div>
+{% endblock body %}

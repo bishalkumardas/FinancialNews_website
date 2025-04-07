@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<style>
+    
+    body {
+        padding-top: 0px;
+        font-family: Arial, sans-serif;
+    }
+    .contact-header {
+        text-align: center;
+        margin: 50px 0;
+    }
+    .contact-header img {
+        width: 100px;
+        height: 100px;
+    }
+    .contact-header h1 {
+        margin-top: 15px;
+        font-weight: bold;
+    }
+    .contact-header p {
+        color: #666;
+        font-size: 16px;
+    }
+    .contact-section {
+        display: flex;
+        justify-content: center;
+        gap: 50px;
+        margin: 50px 0;
+    }
+    .contact-card {
+        text-align: center;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        width: 300px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        background: #ebe4e1;
+    }
+    .contact-card img {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 15px;
+    }
+    .contact-card h5 {
+        margin-bottom: 10px;
+        color: #007bff;
+        font-weight: bold;Image/user_icon/a.png
+    }
+</style>
+{% endblock head %}
+
+
+
+{% block body %}  
+
+  <!-- contact -->
+    <div class="container col-12 col-md-6 my-5">
+        <!-- Contact Header -->
+        <div class="contact-header mt-5">
+            <img src="{% static 'image/icon.png' %}" alt="Profile Image">
+            <h1>Contact Us</h1>
+            <p>Use our contact information below for connect to us.</p>
+        </div>
+    
+        <!-- Contact Section -->
+        <div class="contact-section">
+            <!-- Linkdin -->
+            <div class="contact-card">
+                <img src="{% static "image/linkedin.png" %}" alt="Linkdin Icon">
+                <h5>Linkedin</h5>
+                <p>
+                    <a href="https://www.linkedin.com/in/bishalkumardas/" target="_blank">Bishal Kumar Das</a>
+                </p>
+            </div>
+            <!-- Watsapp -->
+            <div class="contact-card">
+                <img src="{% static "image/whatsapp.png" %}" alt="Watsapp Icon">
+                <h5>Watsapp</h5>
+                <p>
+                    <a href="https://wa.me/qr/AJLPA4WI5MGIE1" target="_blank">+917827244234</a>
+                </p>
+            </div>
+            <!-- Instagram -->
+            <div class="contact-card">
+                <img src="{% static "image/Instagram_icon.png" %}" alt="Instagram Icon">
+                <h5>Instagram</h5>
+                <p>
+                    <a href="https://www.instagram.com/bishal4real/profilecard/?igsh=MWw1bTI2c2VlZ2FqbA%3D%3D" target="_blank">bishal4real</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    {% endblock body %}
