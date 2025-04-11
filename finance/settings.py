@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-5zo_&env--5hbok3*@x7dxd3=w5ya_3ubk+7%!m^=!8@k@89e%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["financialnewswebsite-production.up.railway.app"]
+ALLOWED_HOSTS = ["financialnewswebsite-production.up.railway.app", "127.0.0.1"]
 CSRF_TRUSTED_ORIGINS = [
     "https://financialnewswebsite-production.up.railway.app"
 ]
