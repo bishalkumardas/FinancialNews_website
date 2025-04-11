@@ -527,7 +527,7 @@ def auto_process_news(request):
         
         # check if data present in news_data
         if 'articles' in news_data:
-            for article in news_data['articles'][:20]:
+            for article in news_data['articles'][:5]:
                 #it will not save news if image is not present in it
                 if not article.get('urlToImage'):
                     continue
