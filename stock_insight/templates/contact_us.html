@@ -57,7 +57,7 @@
 {% block body %}  
 
   <!-- contact -->
-    <div class="container col-12 col-md-6 my-5">
+    <div class="container-fluid my-5">
         <!-- Contact Header -->
         <div class="contact-header mt-5">
             <img src="{% static 'image/icon.png' %}" alt="Profile Image">
@@ -66,30 +66,42 @@
         </div>
     
         <!-- Contact Section -->
-        <div class="contact-section">
-            <!-- Linkdin -->
-            <div class="contact-card">
-                <img src="{% static "image/linkedin.png" %}" alt="Linkdin Icon">
-                <h5>Linkedin</h5>
-                <p>
-                    <a href="https://www.linkedin.com/in/bishalkumardas/" target="_blank">Bishal Kumar Das</a>
-                </p>
-            </div>
-            <!-- Watsapp -->
-            <div class="contact-card">
-                <img src="{% static "image/whatsapp.png" %}" alt="Watsapp Icon">
-                <h5>Whatsapp</h5>
-                <p>
-                    <a href="https://wa.me/qr/AJLPA4WI5MGIE1" target="_blank">+917827244234</a>
-                </p>
-            </div>
-            <!-- Instagram -->
-            <div class="contact-card">
-                <img src="{% static "image/Instagram_icon.png" %}" alt="Instagram Icon">
-                <h5>Instagram</h5>
-                <p>
-                    <a href="https://www.instagram.com/bishal4real/profilecard/?igsh=MWw1bTI2c2VlZ2FqbA%3D%3D" target="_blank">bishal4real</a>
-                </p>
+        <div class="mx-5 px-5">
+            <div class="container-fluid row">
+                <div class="col-12 d-flex justify-content-center">
+                    <div class="row">
+                        <!-- Linkdin -->
+                <div class="col-auto mb-2">
+                    <div class="m-2 contact-card">
+                        <img src="{% static "image/linkedin.png" %}" alt="Linkdin Icon">
+                        <h5>Linkedin</h5>
+                        <p>
+                            <a href="https://www.linkedin.com/in/bishalkumardas/" target="_blank">Bishal Kumar Das</a>
+                        </p>
+                    </div>
+                </div>
+                <!-- Watsapp -->
+                <div class="col-auto mb-2">
+                    <div class="m-2 contact-card">
+                        <img src="{% static "image/whatsapp.png" %}" alt="Watsapp Icon">
+                        <h5>Whatsapp</h5>
+                        <p>
+                            <a href="https://wa.me/qr/AJLPA4WI5MGIE1" target="_blank">+917827244234</a>
+                        </p>
+                    </div>
+                </div>
+                <!-- Instagram -->
+                <div class="col-auto mb-2">
+                    <div class="m-2 contact-card">
+                        <img src="{% static "image/Instagram_icon.png" %}" alt="Instagram Icon">
+                        <h5>Instagram</h5>
+                        <p>
+                            <a href="https://www.instagram.com/bishal4real/profilecard/?igsh=MWw1bTI2c2VlZ2FqbA%3D%3D" target="_blank">bishal4real</a>
+                        </p>
+                    </div>
+                </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
