@@ -152,12 +152,12 @@ def stock_news_other(request):
 # news with sentiments
 def stock_news(request):
     
-    api_url="https://news-api-w8ft.onrender.com/news/"
+    api_url="https://newsapi-production-178e.up.railway.app/news/"
     
     sentiment_filter=request.GET.get("sentiment","")
     
     if sentiment_filter:
-        api_url=f"https://news-api-w8ft.onrender.com/news/?sentiment={sentiment_filter}"
+        api_url=f"https://newsapi-production-178e.up.railway.app/news/?sentiment={sentiment_filter}"
         # print('filtered', api_url)
     
     try:
@@ -193,7 +193,7 @@ def stock_news(request):
 
 def news_content(request, news_id):
     
-    api_url = f"https://news-api-w8ft.onrender.com/news/{news_id}/"
+    api_url = f"https://newsapi-production-178e.up.railway.app/news/{news_id}/"
     
     # news_content=get_object_or_404(News, id=news_id)
     try:
@@ -304,8 +304,8 @@ def stock_detail(request):
 # comment function 
 def review(request):
     
-    api_url="https://news-api-w8ft.onrender.com/"
-    api_url_create="https://news-api-w8ft.onrender.com/create/"
+    api_url="https://newsapi-production-178e.up.railway.app/"
+    api_url_create="https://newsapi-production-178e.up.railway.app/create/"
     # print('api')
     
     try:
@@ -403,7 +403,7 @@ def login(request):
 def edit_news(request):
     news_id = request.GET.get('get_record') or request.POST.get('record_id')  # Ensure news_id is set
     get_record = None
-    api_url = f"https://news-api-w8ft.onrender.com/news/{news_id}/" if news_id else None
+    api_url = f"https://newsapi-production-178e.up.railway.app/news/{news_id}/" if news_id else None
 
     if news_id and request.method == "GET":  # Fetch news details only on GET
         try:
@@ -456,7 +456,7 @@ def news_control(request):
     form=NewsForm(request.POST)
     
     try:
-        api_url = "https://news-api-w8ft.onrender.com/news/"  # API endpoint
+        api_url = "https://newsapi-production-178e.up.railway.app/news/"  # API endpoint
         response = requests.get(api_url)
         if response.status_code == 200:
             news_list = response.json()  # Convert response to JSON
