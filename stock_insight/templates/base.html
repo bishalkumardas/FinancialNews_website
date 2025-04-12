@@ -141,17 +141,27 @@
     </div>
 
     {% block footer %}
+    {% comment %} <footer class="container">
+        <button class="float-end">
+            <a href="#" style="color:#a8a3a3; text-decoration: none;" >Back to top</a>
+        </button>
+    </footer> {% endcomment %}
+
     <footer class="container">
-        <button class="float-end"><a href="#">Back to top</a></button>
+        <button onclick="scrollToTop()" class="float-end btn" style="background-color: #050b36; color: white;">
+            Back to top
+        </button>
     </footer>
+    
     {% endblock footer %}
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1216404898026597"
-    crossorigin="anonymous">
-        (adsbygoogle = window.adsbygoogle || []).push({});
-        
+
+    <script>
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
     </script>
 </body>
 </html>
