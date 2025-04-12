@@ -9,6 +9,8 @@
         <title>{% block title %}space for title{% endblock title %}</title>
         
         <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Serif+Todhri&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.5/awesomplete.min.css" />
+
 
         {% block head %}{% endblock head %}
         
@@ -62,6 +64,7 @@
             }
         
         </style>
+        
     </head>
 
 <body style='background-color:#a8a3a3;'>
@@ -121,22 +124,23 @@
     {% endblock navbar %}
 
     {% comment %} Body with ads area  {% endcomment %}
-    <div class="text-center">
-        <div class="row">
+    {% comment %} <div class="text-center"> {% endcomment %}
+    <div>
+        <div class="px-3">    
+        {% comment %} <div class="row"> {% endcomment %}
             {% comment %} left adds {% endcomment %}
-            <div class="col-12 col-md-3">
+            {% comment %} <div class="col-1 col-md-3">
             
-            </div>
+            </div> {% endcomment %}
 
             {% block body %}
             <h1>space for body</h1>
             {% endblock body %}
     
             {% comment %} right adds {% endcomment %}
-            <div class="col-12 col-md-2 mt-5">
-             
-           
-            </div>
+            {% comment %} <div class="col-1 col-md-2 mt-5">
+                       
+            </div> {% endcomment %}
         </div>
     </div>
 
@@ -163,5 +167,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.5/awesomplete.min.js"></script>
+
 </body>
 </html>

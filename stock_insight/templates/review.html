@@ -5,7 +5,7 @@
 {% block body %}
 
 
-<div class="col-12 col-md-6">
+<div>
     <div class="form_django">
         <form action="" method='POST'>
             {% csrf_token %}
@@ -29,7 +29,7 @@
                     {{ form.comment.label_tag }}
                     {{ form.comment }} 
                 </div><br><div class="mb-3">
-                    <label>Rating</label><br>
+                    <label>Rate Us</label><br>
                     {% for radio in form.exp %}
                         <label>{{ radio.tag }} {{ radio.choice_label }}</label>
                     {% endfor %}
@@ -47,46 +47,48 @@
         <h1>Comments</h1>
     </div>
     
-    {% if data.error %}
-        <p style="color: red;">{{ data.error }}</p>
-    {% else %}
-        <div>
-            
-            {% comment %} <img src="image/user_icon/a.png" alt="no image"> {% endcomment %}
-            {% for com in data %}
-            
-            <div class="card border-success" style="width: auto; margin:10px 90px ">
-                <h5 class="card-header d-flex justify-content-between">
-                    <span>
-                        <img src="{% static "image/user_icon/" %}{{ com.fname|slice:":1"|lower }}.png" alt="icon-image" class="user-icon">
-                        {{ com.fname }}
-                        {{ com.lname }}
-                    </span>
-                    <span>
-                        {% if com.exp == 1 %}
-                            &#128545;  {# Angry Face 😡 #}
-                        {% elif com.exp == 2 %}
-                            &#128532;  {# Disappointed Face 😔 #}
-                        {% elif com.exp == 3 %}
-                            &#128528;  {# Neutral Face 😐 #}
-                        {% elif com.exp == 4 %}
-                            &#128522;  {# Smiling Face 😊 #}
-                        {% elif com.exp == 5 %}
-                            &#128519;  {# SMILING FACE WITH HALO 😇 #}
-                        {% endif %}
-                        {% comment %} {{ com.exp }} {% endcomment %}
-                    </span>
-
-                </h5>
-                <div class="card-body ">
-                    <p class="card-text">{{ com.comment }}</p>
+    <div>
+        {% if data.error %}
+            <p style="color: red;">{{ data.error }}</p>
+        {% else %}
+            <div>
+                
+                {% comment %} <img src="image/user_icon/a.png" alt="no image"> {% endcomment %}
+                {% for com in data %}
+                
+                <div class="card border-success text-center mb-3 mx-2 mx-md-5">
+                    <h5 class="card-header d-flex justify-content-between">
+                        <span>
+                            <img src="{% static "image/user_icon/" %}{{ com.fname|slice:":1"|lower }}.png" alt="icon-image" class="user-icon">
+                            {{ com.fname }}
+                            {{ com.lname }}
+                        </span>
+                        <span>
+                            {% if com.exp == 1 %}
+                                &#128545;  {# Angry Face 😡 #}
+                            {% elif com.exp == 2 %}
+                                &#128532;  {# Disappointed Face 😔 #}
+                            {% elif com.exp == 3 %}
+                                &#128528;  {# Neutral Face 😐 #}
+                            {% elif com.exp == 4 %}
+                                &#128522;  {# Smiling Face 😊 #}
+                            {% elif com.exp == 5 %}
+                                &#128519;  {# SMILING FACE WITH HALO 😇 #}
+                            {% endif %}
+                            {% comment %} {{ com.exp }} {% endcomment %}
+                        </span>
+    
+                    </h5>
+                    <div class="card-body ">
+                        <p class="card-text">{{ com.comment }}</p>
+                    </div>
                 </div>
+                {% endfor %}
+                
+                {% comment %} <div><br><br><br><br><br><br><br><br><br><br></div> {% endcomment %}
             </div>
-            {% endfor %}
-            
-            {% comment %} <div><br><br><br><br><br><br><br><br><br><br></div> {% endcomment %}
-        </div>
-    {% endif %}
+        {% endif %}
+    </div>
     <div>
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">

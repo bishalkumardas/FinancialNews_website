@@ -431,10 +431,10 @@ def edit_news(request):
             try:
                 response = requests.put(api_url, json=updated_data)
                 if response.status_code == 200:
-                    messages.success(request, "News updated successfully!")
+                    # messages.success(request, "News updated successfully!")
                     return redirect("news")  #Redirect to stock_news page
-                else:
-                    messages.error(request, "Error updating news.")
+                # else:
+                #     messages.error(request, "Error updating news.")
             except requests.exceptions.RequestException:
                 messages.error(request, "API request failed.")
 
@@ -442,10 +442,10 @@ def edit_news(request):
             try:
                 response = requests.delete(api_url)
                 if response.status_code == 204:
-                    messages.success(request, "News deleted successfully!")
+                    # messages.success(request, "News deleted successfully!")
                     return redirect("news")  #Redirect to stock_news page
-                else:
-                    messages.error(request, "Error deleting news.")
+                # else:
+                #     messages.error(request, "Error deleting news.")
             except requests.exceptions.RequestException:
                 messages.error(request, "API request failed.")
 

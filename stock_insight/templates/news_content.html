@@ -5,21 +5,23 @@
 {% endblock title %}
 
 {% block body %}
-    <div class="col-12 col-md-6 px-3">
+    <div>
         <div class="card mb-3">
-            <p class="card-header">
+            <p class="card-header text-center">
                 {{news.date|date:"d F Y"}}
             </p>
             <div class="card-body">
-                <h1 class="pt-1 text-capitalize text-center" style='font-size: 60px'>{{news.head}}</h1> 
+                <h1 class="pt-1 text-capitalize" style='font-size: 50px'>{{news.head}}</h1> 
                 <h3 class="pt-1 text-start fw-medium">{{news.sub_head}}</h3>
             </div>
-            <img src="{{news.image_link}}" width="100%" class="img-fluid py-3" alt="Write review with id if image not availabe">
+            <div class="text-center">
+                <img src="{{news.image_link}}" width="100%" class="img-fluid py-3" alt="Write review with id if image not availabe">
+            </div>
             <div class="card-body">
                 <h3 class="text-start fw-normal" style="font-size: 25px;"> {{news.content|safe}}</h3>
             </div>
             
-            <p class="card-footer mb-0">{{news.sentiment}}</p>
+            <p class="card-footer text-center mb-0">{{news.sentiment}}</p>
         </div>
     </div>
 

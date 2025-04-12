@@ -40,9 +40,9 @@ class ReviewForm(forms.Form):
                             (4, 'Good'),
                             (5, 'Excellent'),
                             ]
-    fname = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': 'form-control'}), label_suffix='')
-    lname = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': 'form-control'}), label_suffix='')
-    email = forms.EmailField(max_length=254, widget=forms.EmailInput(attrs={'class': 'form-control'}), label_suffix='')
+    fname = forms.CharField(label='First Name', max_length=50, widget=forms.TextInput(attrs={'class': 'form-control'}), label_suffix='')
+    lname = forms.CharField(label='Last Name', max_length=50, widget=forms.TextInput(attrs={'class': 'form-control'}), label_suffix='')
+    email = forms.EmailField(label='Email Id', max_length=254, widget=forms.EmailInput(attrs={'class': 'form-control'}), label_suffix='')
     comment = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}), label_suffix='')
     
     exp = forms.ChoiceField(

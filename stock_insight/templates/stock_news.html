@@ -9,8 +9,10 @@
 {% block body %}
 
     {% comment %} main content {% endcomment %}
-    <div class="col-12 col-md-6">
+    {% comment %} <div class="col-10 col-md-6"> {% endcomment %}
+    <div >
         <br>
+        {% comment %} Sentiment filter {% endcomment %}
         <form method='GET'>
             <div class='d-flex justify-content-between mx-3'>
                 <span>
@@ -30,51 +32,62 @@
                 </span>
             </div>
         </form>
-        {% if news.error%}
-            <p style="color: red;">{{ news.error }}</p>
-        {% else %}
-            {% for n in news %}
-            <div class="card text-center m-2" style='background: #ebe4e1;'>
-                <div class="card-header text-body-secondary">
-                    #{{n.id}}
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-12 col-md-4">
-                            <a href="{% url "content" news_id=n.id %}" class="link-body-emphasis link-underline-opacity-0 link-underline-opacity-75-hover link-offset-2">
-                            
-                                <img src={{n.image_link}} class="card-img-top" style="width: 100%;" alt='If image not showing please share news id in review'>
-                            </a>
-                        </div>
-                        <div class="col-12 col-md-8">
 
-                            <a href="{% url "content" news_id=n.id %}" class="link-body-emphasis link-underline-opacity-0 link-underline-opacity-75-hover link-offset-2">
-                                <h2 class="card-title text-center text-md-start text-capitalize mt-1">{{n.head}}</h2>
-                            </a>
-                            
-                            <h4 class="card-subtitle text-body-secondary text-center text-md-start mt-1">{{n.sub_head}}</h4>
+        {% comment %} main content part  {% endcomment %}
+        <div>
+            
+            {% if news.error%}
+                <p style="color: red;">{{ news.error }}</p>
+            {% else %}
+                {% for n in news %}
+                <div class="card text-center m-2" style='background: #ebe4e1;'>
+                    <div class="card-header text-body-secondary">
+                        #{{n.id}}
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12 col-md-4">
+                                <a href="{% url "content" news_id=n.id %}" class="link-body-emphasis link-underline-opacity-0 link-underline-opacity-75-hover link-offset-2">
+                                
+                                    <img src={{n.image_link}} class="card-img-top" style="width: 100%;" alt='If image not showing please share news id in review'>
+                                </a>
+                            </div>
+                            <div class="col-12 col-md-8">
+    
+                                <a href="{% url "content" news_id=n.id %}" class="link-body-emphasis link-underline-opacity-0 link-underline-opacity-75-hover link-offset-2">
+                                    <h2 class="card-title text-center text-md-start text-capitalize mt-1">{{n.head}}</h2>
+                                </a>
+                                
+                                <h4 class="card-subtitle text-body-secondary text-center text-md-start mt-1">
+                                    <i>
+                                        {{n.sub_head}}
+                                    </i>
+                                    <br><br>
+                                    {{n.content|truncatewords:70|safe}}
+                                </h4>
+                            </div>
                         </div>
                     </div>
+                    <div class="card-footer text-body-secondary d-flex justify-content-between">
+                        <span>
+                            {{n.date|date:"d F Y"}}
+                            {% comment %}
+                            d → Day with leading zero (e.g., 04)
+                            F → Full month name (e.g., February)
+                            Y → Four-digit year (e.g., 2025) 
+                            {% endcomment %}
+                        </span>
+                        <span>
+                            {{n.sentiment}}
+                        </span>
+                        <span>
+                            {{n.relative_date}}
+                        </span>
+                    </div>
                 </div>
-                <div class="card-footer text-body-secondary d-flex justify-content-between">
-                    <span>
-                        {{n.date|date:"d F Y"}}
-                        {% comment %}
-                        d → Day with leading zero (e.g., 04)
-                        F → Full month name (e.g., February)
-                        Y → Four-digit year (e.g., 2025) 
-                        {% endcomment %}
-                    </span>
-                    <span>
-                        {{n.sentiment}}
-                    </span>
-                    <span>
-                        {{n.relative_date}}
-                    </span>
-                </div>
-            </div>
-            {% endfor %}
-        {% endif %}
+                {% endfor %}
+                {% endif %}
+        </div>
 
         {% comment %} pagination code  {% endcomment %}
         <div>
