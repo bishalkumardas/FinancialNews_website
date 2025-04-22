@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <link rel="icon" href="{% static 'image/icon.png' %}"  type="image/png">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
@@ -20,7 +21,6 @@
         
 
 
-        <link rel="icon" href="{% static 'image/icon.png' %}"  type="image/png">
         {% comment %} css for removing spacing in body as it is hiding navbar in mobile {% endcomment %}
         <style>
             
@@ -103,7 +103,7 @@
                 <li class="nav-item">
                     <a class="nav-link {% if request.resolver_match.url_name == 'contact-us' %} active  {% endif %}" aria-current="page" href="{% url "contact-us" %}">Contact Us</a>
                 </li>
-                
+
                 {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link {% if request.resolver_match.url_name == 'control' %} active {% endif %}" aria-current="page" href="{% url 'control' %}">Page Control</a>
